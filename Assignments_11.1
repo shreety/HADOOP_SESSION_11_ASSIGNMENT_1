@@ -1,0 +1,28 @@
+1. Import data from MySql to HDFS:
+
+a. List out databases and tables in SQL database using sqoop commands
+sqoop list-databases --connect jdbc:mysql://localhost/ --username root --password cloudera
+
+sqoop list-tables
+--connect jdbc:mysql://localhost/alabs
+--username cloudera
+--password cloudera 
+
+b. Import table from MySql to HDFS 
+sqoop import --connect jdbc:mysql://localhost/retail_db --username root --password cloudera --table customers -m1
+
+
+2. Export data from Mysql to HDFS:
+
+a. To export the data in HDFS to MySQL, first we need to create a table in MYSQL which matches the schema of the data in HDFS.
+
+Let’s create a table in MYSQL using the below command:
+create table customers(cust_id INT,Name varchar(50),city varchar(50));
+
+describe customers;
+
+b. sqoop export --connect jdbc:mysql://localhost/firehose --username cloudera --password cloudera --table customers --export-dir /user/cloudera/Customers.csv
+
+The data has now been successfully transferred from HDFS to RDBMS. We can check the data in MySQL using the below command:
+
+select * from customers;
